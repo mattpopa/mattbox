@@ -1,0 +1,36 @@
+[pull]
+	rebase = true
+[user]
+	name = 
+	email = 
+[color]
+	ui = auto
+[core]
+    pager = less 
+    editor = vim -X
+	excludesfile = ~/.gitignore_global
+    attributesfile = ~/.gitattributes
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[merge]
+    tool = vimdiff
+[merge "ansible-vault"]
+	name = ansible-vault merge driver
+    driver = ~/mattbox/ansible-vault-merge  %O %A %B %P
+[diff]
+    tool = vimdiff
+[diff "vault"]
+	textconv = ansible-vault view
+    cachetextconv = false
+[diff "ansible-vault"]
+    textconv = ansible-vault view
+    cachetextconv = false
+[log]
+    decorate = true
+[commit]
+	template = ~/.stCommitMsg
+

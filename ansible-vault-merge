@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BASE=$1
+CURRENT=$2
+OTHER=$3
+LOCATION=$4
+
+set -e
+
+ansible-vault decrypt $BASE > /dev/null
+ansible-vault decrypt $CURRENT > /dev/null
+ansible-vault decrypt $OTHER > /dev/null
+
+if ! git merge-file -L CURRENT -L BASE -L OTHER $CURRENT $BASE $OTHER; then
+  ansible-vault encrypt $CURRENT
+  exit 1
+else
+  ansible-vault encrypt $CURRENT
+fi
