@@ -1,30 +1,31 @@
 [pull]
-	rebase = true
+    rebase = true
 [user]
-	name = 
-	email = 
+    name = manb3ast
+    email = 
 [color]
-	ui = auto
+    ui = auto
 [core]
     pager = less 
     editor = vim -X
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes
+    autocrlf = input
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
 [merge]
     tool = vimdiff
 [merge "ansible-vault"]
-	name = ansible-vault merge driver
-    driver = ~/mattbox/ansible-vault-merge  %O %A %B %P
+    name = ansible-vault merge driver
+    driver = ~/mattbox/ansible-vault-merge %O %A %B %P
 [diff]
     tool = vimdiff
 [diff "vault"]
-	textconv = ansible-vault view
+    textconv = ansible-vault view
     cachetextconv = false
 [diff "ansible-vault"]
     textconv = ansible-vault view
@@ -32,5 +33,4 @@
 [log]
     decorate = true
 [commit]
-	template = ~/.stCommitMsg
-
+    template = ~/.stCommitMsg
