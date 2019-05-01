@@ -12,8 +12,15 @@ ansible-vault decrypt $CURRENT > /dev/null
 ansible-vault decrypt $OTHER > /dev/null
 
 if ! git merge-file -L CURRENT -L BASE -L OTHER $CURRENT $BASE $OTHER; then
-  ansible-vault encrypt $CURRENT
-  exit 1
+
+## Safe choise -- well tested
+#  ansible-vault encrypt $CURRENT
+#  exit 1
+
+## Experimental -- in testing
+  echo "Merge conflict; opening editor to resolve." >&2
+  ${EDITOR:-vi} $CURRENT
+
 else
   ansible-vault encrypt $CURRENT
 fi
