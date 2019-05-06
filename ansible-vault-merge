@@ -7,19 +7,27 @@ LOCATION=$4
 
 set -e
 
-ansible-vault decrypt $BASE > /dev/null
-ansible-vault decrypt $CURRENT > /dev/null
-ansible-vault decrypt $OTHER > /dev/null
+ansible-vault decrypt $BASE    > /dev/null 2>&1 || true 
+ansible-vault decrypt $CURRENT > /dev/null 2>&1 || true
+ansible-vault decrypt $OTHER   > /dev/null 2>&1 || true
 
 if ! git merge-file -L CURRENT -L BASE -L OTHER $CURRENT $BASE $OTHER; then
 
-## Safe choise -- well tested
+## Safe fallback -- well tested
+##
+## If the merge fails, you'll have to manually check
+## the state of the conflicted vault files
+
 #  ansible-vault encrypt $CURRENT
 #  exit 1
 
 ## Experimental -- in testing
-  echo "Merge conflict; opening editor to resolve." >&2
-  ${EDITOR:-vi} $CURRENT
+## 
+## if the merge failes, you have the option
+## to resolve the conflict in your default editor
+##
+  echo -e "\t¯\_(ツ)_/¯"
+  ${EDITOR} $CURRENT && ansible-vault encrypt $_
 
 else
   ansible-vault encrypt $CURRENT
