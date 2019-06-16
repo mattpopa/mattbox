@@ -1,11 +1,11 @@
-## Git config for fixing vault conflicts
+# Git config for fixing vault conflicts
 This is my git config backup file and ansible-vault merge driver, handy for fixing vault conflicts. 
 
-### How to set this up 
+## How to set this up 
 
 * Scripted steps
-	- Navigate to project root folder
 	- Run `install.sh` script using `./install.sh`
+	- Congrats! You should now have the merge driver set up in your `~/.gitattributes` and `~/.gitconfig`
 
 * Manual steps
 	- Copy `.gitconfig` and `.gitattributes` to your home dir;
@@ -13,7 +13,7 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
 	- Check the path for `ansible-vault-merge` in your `.gitconfig` to point to the right script;
 	- Review and add your name/email or other custom config in your `.gitconfig`
 
-### How to test if it's working
+## How to test if it's working
 
 * Do a merge that resulted in a vault conflict prior of using this driver, and you should see it at work. It kicks in automatically, and most of the times it doesn't ask for input.
 
