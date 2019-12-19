@@ -39,6 +39,7 @@ case $1 in
 			exit 1
 		fi
 		PROJECT_ROOT_PATH=$2
+		GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.git/config"
 		;;
 	*)
 	  echo "Aborting as the parameters passed are not in the params list. For usage use --help"
@@ -47,12 +48,12 @@ case $1 in
 esac
 
 if [[ -z ${PROJECT_ROOT_PATH} ]]; then
-  PROJECT_ROOT_PATH="$(pwd)"
+  PROJECT_ROOT_PATH="~/"
+  GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.gitconfig"
 fi
 
 SCRIPT_PATH="$( pwd )"
 MERGE_SCRIPT_PATH="${SCRIPT_PATH}/ansible-vault-merge"
-GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.gitconfig"
 GITATTRIBUTES_PATH="${PROJECT_ROOT_PATH}/.gitattributes"
 
 echo "=================================="
@@ -78,7 +79,7 @@ fi
 read -d '' GIT_CONFIG_CONTENT << EOM || true
 [merge "ansible-vault"]
     name = ansible-vault merge driver
-    driver = ${SCRIPT_PATH}/ansible-vault-merge %O %A %B %P
+    driver = ${MERGE_SCRIPT_PATH} %O %A %B %P
 [diff "vault"]
     textconv = ansible-vault view
     cachetextconv = false
