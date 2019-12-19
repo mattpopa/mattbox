@@ -15,13 +15,45 @@
 # It will also add to .gitattribute the following bit if was not previously added
 # *.vault diff=ansible-vault merge=ansible-vault
 #
-# Usage: ./install.sh from project root folder
+# Usage: ./install.sh [--help] [-p path]
+#	  --help  display help
+#	  -p      specify the path to the project root where the driver should be configured
 
 
-set -eo
+set -e
+
+function usage {
+	echo "Usage: ./install.sh [--help] [-p path]"
+	echo "  --help  display help"
+	echo "  -p      specify the path to the project root where the driver should be configured"
+	exit 0
+}
+
+case $1 in
+	--help)
+		usage
+		;;
+	-p)
+		if [[ -z $2 ]]; then
+			echo "Path to the project root folder - containing .git - should be supplied"
+			exit 1
+		fi
+		PROJECT_ROOT_PATH=$2
+		;;
+	*)
+	  echo "Aborting as the parameters passed are not in the params list. For usage use --help"
+	  exit 1
+	  ;;
+esac
+
+if [[ -z ${PROJECT_ROOT_PATH} ]]; then
+  PROJECT_ROOT_PATH="$(pwd)"
+fi
 
 SCRIPT_PATH="$( pwd )"
 MERGE_SCRIPT_PATH="${SCRIPT_PATH}/ansible-vault-merge"
+GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.gitconfig"
+GITATTRIBUTES_PATH="${PROJECT_ROOT_PATH}/.gitattributes"
 
 echo "=================================="
 echo "Checking ${MERGE_SCRIPT_PATH} file"
@@ -33,10 +65,14 @@ echo "${MERGE_SCRIPT_PATH} already exists"
 
 pushd ~/
 
-echo "Adding attributesfile property in `pwd`/.gitconfig if not exists"
-if ! grep -q "attributesfile" .gitconfig ; then
-	sed -i -E 's/\[core\]/\[core\] \
-	attributesfile = ~\/.gitattributes/g' .gitconfig 
+echo "Adding attributesfile property in ${GITCONFIG_PATH} if not exists"
+if [[ ! -f "${GITCONFIG_PATH}" ]]; then
+  echo "Creating ${GITCONFIG_PATH} as it does not exists"
+  touch "${GITCONFIG_PATH}"
+fi
+if ! grep -q "attributesfile" "${GITCONFIG_PATH}" ; then
+	sed -i '.bak' -E 's/\[core\]/\[core\] \
+	attributesfile = ~\/.gitattributes/g' ${GITCONFIG_PATH}
 fi
 
 read -d '' GIT_CONFIG_CONTENT << EOM || true
@@ -55,15 +91,22 @@ read -d '' GIT_ATTR_CONTENT << EOM || true
 *.vault diff=ansible-vault merge=ansible-vault
 EOM
 
-echo "Checking if `pwd`/.gitconfig was previous configured"
-if ! grep -q -E "(?:merge \"ansible-vault\"|diff \"vault\"|diff \"ansible-vault\")" .gitconfig ; then
-	echo "Configuring `pwd`/.gitconfig"
-	echo "$GIT_CONFIG_CONTENT" | tee -a .gitconfig
+echo "Checking if ${GITCONFIG_PATH} was previous configured"
+if ! grep -q -E "(?:merge \"ansible-vault\"|diff \"vault\"|diff \"ansible-vault\")" "${GITCONFIG_PATH}" ; then
+	echo "Configuring ${GITCONFIG_PATH}"
+	echo "$GIT_CONFIG_CONTENT" | tee -a "${GITCONFIG_PATH}"
 fi
 
-echo "Checking if `pwd`/.gitattributes was previous configured"
-if ! grep -q "${GIT_ATTR_CONTENT}" .gitattributes ; then
-	echo "Configuring `pwd`/.gitattributes"
-	echo "$GIT_ATTR_CONTENT" | tee -a .gitattributes
+echo "Checking if ${GITATTRIBUTES_PATH} was previous configured"
+if [[ ! -f "${GITATTRIBUTES_PATH}" ]]; then
+  echo "Creating ${GITATTRIBUTES_PATH} as it does not exists"
+  touch "${GITATTRIBUTES_PATH}"
 fi
+if ! grep -q "${GIT_ATTR_CONTENT}" "${GITATTRIBUTES_PATH}" ; then
+	echo "Configuring `pwd`/.gitattributes"
+	echo "$GIT_ATTR_CONTENT" | tee -a "${GITATTRIBUTES_PATH}"
+fi
+
+echo "Cleaning up bak files"
+rm -rf "${GITCONFIG_PATH}.bak"
 echo "=================================="
