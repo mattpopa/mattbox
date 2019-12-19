@@ -42,14 +42,16 @@ case $1 in
 		GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.git/config"
 		;;
 	*)
-	  echo "Aborting as the parameters passed are not in the params list. For usage use --help"
-	  exit 1
+	  if [[ -n $1 ]]; then
+      echo "Aborting as the parameters passed are not in the params list. For usage use --help"
+      exit 1
+	  fi
 	  ;;
 esac
 
 if [[ -z ${PROJECT_ROOT_PATH} ]]; then
-  PROJECT_ROOT_PATH="~/"
-  GITCONFIG_PATH="${PROJECT_ROOT_PATH}/.gitconfig"
+  PROJECT_ROOT_PATH="$(echo ~/)"
+  GITCONFIG_PATH="${PROJECT_ROOT_PATH}.gitconfig"
 fi
 
 SCRIPT_PATH="$( pwd )"
@@ -63,8 +65,6 @@ if [[ ! -f "${MERGE_SCRIPT_PATH}" ]]; then
 	exit 1
 fi
 echo "${MERGE_SCRIPT_PATH} already exists"
-
-pushd ~/
 
 echo "Adding attributesfile property in ${GITCONFIG_PATH} if not exists"
 if [[ ! -f "${GITCONFIG_PATH}" ]]; then
