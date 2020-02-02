@@ -6,9 +6,10 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
 * Install script
 	- Run `install.sh` script using `./install.sh`
 	- Congrats! You should now have the merge driver set up in your `~/.gitattributes` and `~/.gitconfig`
-</br>	
+
 OR
 </br>
+
 
 * Manual steps
 	- Copy `.gitconfig` and `.gitattributes` to your home dir;
