@@ -9,6 +9,7 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
 </br>	
 OR
 </br>
+
 * Manual steps
 	- Copy `.gitconfig` and `.gitattributes` to your home dir;
 	- Make sure the `ansible-vault-merge` is executable;
