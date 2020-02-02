@@ -3,9 +3,10 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
 
 ## How to set this up 
 
-* Scripted steps
+* Install script
 	- Run `install.sh` script using `./install.sh`
 	- Congrats! You should now have the merge driver set up in your `~/.gitattributes` and `~/.gitconfig`
+OR
 
 * Manual steps
 	- Copy `.gitconfig` and `.gitattributes` to your home dir;
@@ -18,6 +19,11 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
 * Do a merge that resulted in a vault conflict prior of using this driver, and you should see it at work. It kicks in automatically, and most of the times it doesn't ask for input.
 
 * Or create a vault conflict to test this. You can create such scenario by editing a vault file from 2 branches. It looks like this:
+
+
+<details><summary>Show how</summary>
+<p>
+	
     - Create a branch from your `develop` or `master` <br>
     `git checkout -b aaa`
     - Create a vault file and write 2 lines in it <br>
@@ -61,3 +67,7 @@ This is my git config backup file and ansible-vault merge driver, handy for fixi
         ccc : ccc
         aaa : aaa
     - Congrats! 
+
+
+</p>
+</details>
