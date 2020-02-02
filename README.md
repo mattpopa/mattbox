@@ -27,35 +27,35 @@ OR
 <details><summary>Show how</summary>
 <p>
 	
-    - Create a branch from your `develop` or `master` <br>
+   - Create a branch from your `develop` or `master` <br>
     `git checkout -b aaa`
-    - Create a vault file and write 2 lines in it <br>
+   - Create a vault file and write 2 lines in it <br>
     `vim secrets.vault` <br>
     write
         ~~~~
         aaa : aaa
         bbb : bbb
 
-    - Encrypt the file using ansible-vault <br>
+   - Encrypt the file using ansible-vault <br>
      `ansible-vault encrypt secrets.vault`
-    - Commit the changes <br>
+   - Commit the changes <br>
     `git add . &&  git commit -am "1st commit from aaa"`
-    - Move to another branch now, branched off of master or develop
+   - Move to another branch now, branched off of master or develop
     `git checkout -b bbb develop`
-    - Repeat the steps from branch aaa, but using a new line ccc<br>
+   - Repeat the steps from branch aaa, but using a new line ccc<br>
     `vim secrets.vault` <br>
         ~~~~
         bbb : bbb
         ccc : ccc
 
-    - Encrypt the file from bbb <br>
+   - Encrypt the file from bbb <br>
     `ansible-vault encrypt secrets.vault`
-    - Commit<br>
+   - Commit<br>
     `git add . &&  git commit -am "1st commit on bbb"`<br>
     `git status`
-    - Merge aaa into bbb<br>
+   - Merge aaa into bbb<br>
      `git merge --no-edit aaa`
-    - Double check your changes using
+   - Double check your changes using
         ~~~~
         $ cat secrets.vault 
         $ANSIBLE_VAULT;1.1;AES256
@@ -69,7 +69,7 @@ OR
         bbb : bbb
         ccc : ccc
         aaa : aaa
-    - Congrats! 
+   - Congrats! 
 
 
 </p>
