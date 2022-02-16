@@ -15,7 +15,7 @@
 # It will also add to .gitattribute the following bit if was not previously added
 # *.vault diff=ansible-vault merge=ansible-vault
 #
-# Usage: ./install.sh [--help] [-p path]
+# Usage: ./update_hooks.sh [--help] [-p path]
 #	  --help  display help
 #	  -p      specify the path to the project root where the driver should be configured
 
