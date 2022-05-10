@@ -1,6 +1,6 @@
-# Jira ticket prefixed in git commit message
+# Task ticket number/id prefixed in git commit message
 
-This scripts expects you're using a branch with the jira ticket in its name, like:
+This scripts expects you're using a branch with the jira/linear ticket in its name, like:
 `feature/ABC-123` or `ABC-123`
 
 grabs the ticket format from the branch name and sets it automatically in your git commit msg, making it easier to
